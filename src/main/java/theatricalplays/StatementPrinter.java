@@ -36,7 +36,7 @@ public class StatementPrinter {
         return plays.get(aPerformance.playID);
     }
 
-    private static int amountFor(Performance performance, Play play) {
+    private int amountFor(Performance performance, Play play) {
         var result = 0;
 
         switch (play.type) {
