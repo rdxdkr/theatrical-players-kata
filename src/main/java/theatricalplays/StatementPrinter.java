@@ -16,7 +16,7 @@ public class StatementPrinter {
         this.plays = plays;
 
         for (var aPerformance : invoice.performances) {
-            var thisAmount = amountFor(aPerformance, playFor(aPerformance));
+            var thisAmount = amountFor(aPerformance);
 
             // add volume credits
             volumeCredits += Math.max(aPerformance.audience - 30, 0);
@@ -36,10 +36,10 @@ public class StatementPrinter {
         return plays.get(aPerformance.playID);
     }
 
-    private int amountFor(Performance performance, Play play) {
+    private int amountFor(Performance performance) {
         var result = 0;
 
-        switch (play.type) {
+        switch (playFor(performance).type) {
             case "tragedy":
                 result = 40000;
 
