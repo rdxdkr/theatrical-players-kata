@@ -16,16 +16,15 @@ public class StatementPrinter {
         this.plays = plays;
 
         for (var aPerformance : invoice.performances) {
-            var play = playFor(aPerformance);
-            var thisAmount = amountFor(aPerformance, play);
+            var thisAmount = amountFor(aPerformance, playFor(aPerformance));
 
             // add volume credits
             volumeCredits += Math.max(aPerformance.audience - 30, 0);
             // add extra credit for every ten comedy attendees
-            if ("comedy".equals(play.type)) volumeCredits += (aPerformance.audience / 5);
+            if ("comedy".equals(playFor(aPerformance).type)) volumeCredits += (aPerformance.audience / 5);
 
             // print line for this order
-            result.append(String.format("  %s: %s (%s seats)\n", play.name, format.format(thisAmount / 100), aPerformance.audience));
+            result.append(String.format("  %s: %s (%s seats)\n", playFor(aPerformance).name, format.format(thisAmount / 100), aPerformance.audience));
             totalAmount += thisAmount;
         }
         result.append(String.format("Amount owed is %s\n", format.format(totalAmount / 100)));
