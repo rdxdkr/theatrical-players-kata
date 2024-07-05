@@ -16,7 +16,7 @@ public class StatementPrinter {
         this.plays = plays;
 
         for (var aPerformance : invoice.performances) {
-            var play = plays.get(aPerformance.playID);
+            var play = playFor(aPerformance);
             var thisAmount = amountFor(aPerformance, play);
 
             // add volume credits
@@ -31,6 +31,10 @@ public class StatementPrinter {
         result.append(String.format("Amount owed is %s\n", format.format(totalAmount / 100)));
         result.append(String.format("You earned %s credits\n", volumeCredits));
         return result.toString();
+    }
+
+    private Play playFor(Performance aPerformance) {
+        return plays.get(aPerformance.playID);
     }
 
     private static int amountFor(Performance performance, Play play) {
