@@ -18,8 +18,11 @@ public class StatementPrinter {
         for (var aPerformance : invoice.performances) {
             // add volume credits
             volumeCredits += Math.max(aPerformance.audience - 30, 0);
+
             // add extra credit for every ten comedy attendees
-            if ("comedy".equals(playFor(aPerformance).type)) volumeCredits += (aPerformance.audience / 5);
+            if ("comedy".equals(playFor(aPerformance).type)) {
+                volumeCredits += (aPerformance.audience / 5);
+            }
 
             // print line for this order
             result.append(String.format("  %s: %s (%s seats)\n", playFor(aPerformance).name, format.format(amountFor(aPerformance) / 100), aPerformance.audience));
