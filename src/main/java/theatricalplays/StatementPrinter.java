@@ -9,11 +9,10 @@ public class StatementPrinter {
 
     public String print(Invoice invoice, Map<String, Play> plays) {
         var totalAmount = 0;
-        var volumeCredits = 0;
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoice.customer));
-
         this.plays = plays;
 
+        var volumeCredits = 0;
         for (var aPerformance : invoice.performances) {
             volumeCredits += volumeCreditsFor(aPerformance);
         }
