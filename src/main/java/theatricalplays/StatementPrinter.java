@@ -15,6 +15,9 @@ public class StatementPrinter {
         for (var aPerformance : invoice.performances) {
             // print line for this order
             result.append(String.format("  %s: %s (%s seats)\n", playFor(aPerformance).name, usd(amountFor(aPerformance) / 100), aPerformance.audience));
+        }
+
+        for (var aPerformance : invoice.performances) {
             totalAmount += amountFor(aPerformance);
         }
 
