@@ -26,10 +26,39 @@ public class StatementPrinter {
             private Play playFor(Performance aPerformance) {
                 return plays.get(aPerformance.playID);
             }
+
+            private int amountFor(Performance aPerformance) {
+                var result = 0;
+
+                switch (aPerformance.play.type) {
+                    case "tragedy":
+                        result = 40000;
+
+                        if (aPerformance.audience > 30) {
+                            result += 1000 * (aPerformance.audience - 30);
+                        }
+
+                        break;
+                    case "comedy":
+                        result = 30000;
+
+                        if (aPerformance.audience > 20) {
+                            result += 10000 + 500 * (aPerformance.audience - 20);
+                        }
+
+                        result += 300 * aPerformance.audience;
+                        break;
+                    default:
+                        throw new Error("unknown type: ${play.type}");
+                }
+
+                return result;
+            }
         };
         var result = new Performance(aPerformance.playID, aPerformance.audience);
 
         result.play = printer.playFor(result);
+        result.amount = printer.amountFor(result);
         return result;
     }
 
@@ -77,30 +106,6 @@ public class StatementPrinter {
     }
 
     private int amountFor(Performance aPerformance) {
-        var result = 0;
-
-        switch (aPerformance.play.type) {
-            case "tragedy":
-                result = 40000;
-
-                if (aPerformance.audience > 30) {
-                    result += 1000 * (aPerformance.audience - 30);
-                }
-
-                break;
-            case "comedy":
-                result = 30000;
-
-                if (aPerformance.audience > 20) {
-                    result += 10000 + 500 * (aPerformance.audience - 20);
-                }
-
-                result += 300 * aPerformance.audience;
-                break;
-            default:
-                throw new Error("unknown type: ${play.type}");
-        }
-
-        return result;
+        return aPerformance.amount;
     }
 }
