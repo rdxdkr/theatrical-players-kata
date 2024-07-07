@@ -67,7 +67,7 @@ public class StatementPrinter {
 
         for (var aPerformance : data.performances()) {
             // print line for this order
-            result.append(String.format("  %s: %s (%s seats)\n", aPerformance.play.name, usd(amountFor(aPerformance) / 100), aPerformance.audience));
+            result.append(String.format("  %s: %s (%s seats)\n", aPerformance.play.name, usd(aPerformance.amount / 100), aPerformance.audience));
         }
 
         result.append(String.format("Amount owed is %s\n", usd(totalAmount(data) / 100)));
@@ -78,7 +78,7 @@ public class StatementPrinter {
     private int totalAmount(StatementData data) {
         var totalAmount = 0;
         for (var aPerformance : data.performances()) {
-            totalAmount += amountFor(aPerformance);
+            totalAmount += aPerformance.amount;
         }
         return totalAmount;
     }
@@ -103,9 +103,5 @@ public class StatementPrinter {
         }
 
         return volumeCredits;
-    }
-
-    private int amountFor(Performance aPerformance) {
-        return aPerformance.amount;
     }
 }
