@@ -15,8 +15,8 @@ public class StatementPrinter {
         return renderPlainText(statementData, invoice, plays);
     }
 
-    private String renderPlainText(StatementData statementData, Invoice invoice, Map<String, Play> plays) {
-        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", statementData.customer()));
+    private String renderPlainText(StatementData data, Invoice invoice, Map<String, Play> plays) {
+        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", data.customer()));
         this.plays = plays;
 
         for (var aPerformance : invoice.performances) {
