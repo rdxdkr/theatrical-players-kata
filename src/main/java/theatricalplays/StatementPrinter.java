@@ -20,7 +20,7 @@ public class StatementPrinter {
     }
 
     private Performance enrichPerformance(Performance aPerformance) {
-        return aPerformance;
+        return new Performance(aPerformance.playID, aPerformance.audience);
     }
 
     private String renderPlainText(StatementData data, Map<String, Play> plays) {
