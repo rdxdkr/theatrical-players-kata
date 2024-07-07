@@ -38,7 +38,7 @@ public class StatementPrinter {
 
         for (var aPerformance : data.performances()) {
             // print line for this order
-            result.append(String.format("  %s: %s (%s seats)\n", playFor(aPerformance).name, usd(amountFor(aPerformance) / 100), aPerformance.audience));
+            result.append(String.format("  %s: %s (%s seats)\n", aPerformance.play.name, usd(amountFor(aPerformance) / 100), aPerformance.audience));
         }
 
         result.append(String.format("Amount owed is %s\n", usd(totalAmount(data) / 100)));
@@ -69,21 +69,17 @@ public class StatementPrinter {
     private int volumeCreditsFor(Performance aPerformance) {
         var volumeCredits = Math.max(aPerformance.audience - 30, 0);
 
-        if ("comedy".equals(playFor(aPerformance).type)) {
+        if ("comedy".equals(aPerformance.play.type)) {
             volumeCredits += (aPerformance.audience / 5);
         }
 
         return volumeCredits;
     }
 
-    private Play playFor(Performance aPerformance) {
-        return plays.get(aPerformance.playID);
-    }
-
     private int amountFor(Performance aPerformance) {
         var result = 0;
 
-        switch (playFor(aPerformance).type) {
+        switch (aPerformance.play.type) {
             case "tragedy":
                 result = 40000;
 
