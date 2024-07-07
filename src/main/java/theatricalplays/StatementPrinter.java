@@ -22,7 +22,15 @@ public class StatementPrinter {
     }
 
     private Performance enrichPerformance(Performance aPerformance) {
-        return new Performance(aPerformance.playID, aPerformance.audience);
+        var printer = new StatementPrinter() {
+            private Play playFor(Performance aPerformance) {
+                return plays.get(aPerformance.playID);
+            }
+        };
+        var result = new Performance(aPerformance.playID, aPerformance.audience);
+
+        result.play = printer.playFor(result);
+        return result;
     }
 
     private String renderPlainText(StatementData data) {
