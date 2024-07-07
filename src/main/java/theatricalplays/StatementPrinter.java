@@ -5,7 +5,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-record StatementData(String customer, List<Performance> performances) {
+class StatementData {
+    public String customer;
+    public List<Performance> performances;
+
+    StatementData(String customer, List<Performance> performances) {
+        this.customer = customer;
+        this.performances = performances;
+    }
 }
 
 public class StatementPrinter {
@@ -64,9 +71,9 @@ public class StatementPrinter {
     }
 
     private String renderPlainText(StatementData data) {
-        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", data.customer()));
+        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", data.customer));
 
-        for (var aPerformance : data.performances()) {
+        for (var aPerformance : data.performances) {
             // print line for this order
             result.append(String.format("  %s: %s (%s seats)\n", aPerformance.play.name, usd(aPerformance.amount / 100), aPerformance.audience));
         }
@@ -78,7 +85,7 @@ public class StatementPrinter {
 
     private int totalAmount(StatementData data) {
         var totalAmount = 0;
-        for (var aPerformance : data.performances()) {
+        for (var aPerformance : data.performances) {
             totalAmount += aPerformance.amount;
         }
         return totalAmount;
@@ -86,7 +93,7 @@ public class StatementPrinter {
 
     private int totalVolumeCredits(StatementData data) {
         var volumeCredits = 0;
-        for (var aPerformance : data.performances()) {
+        for (var aPerformance : data.performances) {
             volumeCredits += aPerformance.volumeCredits;
         }
         return volumeCredits;
