@@ -25,22 +25,22 @@ public class StatementPrinter {
             result.append(String.format("  %s: %s (%s seats)\n", playFor(aPerformance).name, usd(amountFor(aPerformance) / 100), aPerformance.audience));
         }
 
-        result.append(String.format("Amount owed is %s\n", usd(totalAmount(invoice) / 100)));
-        result.append(String.format("You earned %s credits\n", totalVolumeCredits(invoice)));
+        result.append(String.format("Amount owed is %s\n", usd(totalAmount(data, invoice) / 100)));
+        result.append(String.format("You earned %s credits\n", totalVolumeCredits(data, invoice)));
         return result.toString();
     }
 
-    private int totalAmount(Invoice invoice) {
+    private int totalAmount(StatementData data, Invoice invoice) {
         var totalAmount = 0;
-        for (var aPerformance : invoice.performances) {
+        for (var aPerformance : data.performances()) {
             totalAmount += amountFor(aPerformance);
         }
         return totalAmount;
     }
 
-    private int totalVolumeCredits(Invoice invoice) {
+    private int totalVolumeCredits(StatementData data, Invoice invoice) {
         var volumeCredits = 0;
-        for (var aPerformance : invoice.performances) {
+        for (var aPerformance : data.performances()) {
             volumeCredits += volumeCreditsFor(aPerformance);
         }
         return volumeCredits;
