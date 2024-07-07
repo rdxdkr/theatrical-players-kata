@@ -12,6 +12,8 @@ public class StatementPrinter {
     private Map<String, Play> plays;
 
     public String print(Invoice invoice, Map<String, Play> plays) {
+        this.plays = plays;
+
         var statementData = new StatementData(
                 invoice.customer,
                 invoice.performances.stream().map(this::enrichPerformance).toList()
@@ -25,7 +27,6 @@ public class StatementPrinter {
 
     private String renderPlainText(StatementData data, Map<String, Play> plays) {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", data.customer()));
-        this.plays = plays;
 
         for (var aPerformance : data.performances()) {
             // print line for this order
