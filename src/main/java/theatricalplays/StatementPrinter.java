@@ -87,16 +87,12 @@ public class StatementPrinter {
     private int totalVolumeCredits(StatementData data) {
         var volumeCredits = 0;
         for (var aPerformance : data.performances()) {
-            volumeCredits += volumeCreditsFor(aPerformance);
+            volumeCredits += aPerformance.volumeCredits;
         }
         return volumeCredits;
     }
 
     private String usd(int aNumber) {
         return NumberFormat.getCurrencyInstance(Locale.US).format(aNumber);
-    }
-
-    private int volumeCreditsFor(Performance aPerformance) {
-        return aPerformance.volumeCredits;
     }
 }
