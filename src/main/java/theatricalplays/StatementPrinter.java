@@ -8,7 +8,6 @@ public class StatementPrinter {
     private Map<String, Play> plays;
 
     public String print(Invoice invoice, Map<String, Play> plays) {
-        var totalAmount = 0;
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoice.customer));
         this.plays = plays;
 
@@ -17,6 +16,7 @@ public class StatementPrinter {
             result.append(String.format("  %s: %s (%s seats)\n", playFor(aPerformance).name, usd(amountFor(aPerformance) / 100), aPerformance.audience));
         }
 
+        var totalAmount = 0;
         for (var aPerformance : invoice.performances) {
             totalAmount += amountFor(aPerformance);
         }
