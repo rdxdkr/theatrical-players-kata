@@ -4,19 +4,19 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Map;
 
-record StatementData() {
+record StatementData(String customer) {
 }
 
 public class StatementPrinter {
     private Map<String, Play> plays;
 
     public String print(Invoice invoice, Map<String, Play> plays) {
-        var statementData = new StatementData();
+        var statementData = new StatementData(invoice.customer);
         return renderPlainText(statementData, invoice, plays);
     }
 
     private String renderPlainText(StatementData statementData, Invoice invoice, Map<String, Play> plays) {
-        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", invoice.customer));
+        StringBuilder result = new StringBuilder(String.format("Statement for %s\n", statementData.customer()));
         this.plays = plays;
 
         for (var aPerformance : invoice.performances) {
