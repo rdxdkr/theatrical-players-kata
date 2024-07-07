@@ -32,16 +32,16 @@ public class StatementPrinter {
                     case "tragedy" -> {
                         var result = 40000;
                         if (aPerformance.audience > 30) {
-                            result += 1000 * (aPerformance.audience - 30);
+                            result += (1000 * (aPerformance.audience - 30));
                         }
                         yield result;
                     }
                     case "comedy" -> {
                         var result = 30000;
                         if (aPerformance.audience > 20) {
-                            result += 10000 + 500 * (aPerformance.audience - 20);
+                            result += 10000 + (500 * (aPerformance.audience - 20));
                         }
-                        yield result + 300 * aPerformance.audience;
+                        yield result + (300 * aPerformance.audience);
                     }
                     default -> throw new Error("unknown type: ${play.type}");
                 };
