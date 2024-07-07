@@ -12,8 +12,15 @@ public class StatementPrinter {
     private Map<String, Play> plays;
 
     public String print(Invoice invoice, Map<String, Play> plays) {
-        var statementData = new StatementData(invoice.customer, invoice.performances);
+        var statementData = new StatementData(
+                invoice.customer,
+                invoice.performances.stream().map(this::enrichPerformance).toList()
+        );
         return renderPlainText(statementData, plays);
+    }
+
+    private Performance enrichPerformance(Performance aPerformance) {
+        return aPerformance;
     }
 
     private String renderPlainText(StatementData data, Map<String, Play> plays) {
