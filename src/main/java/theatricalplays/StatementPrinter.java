@@ -46,11 +46,20 @@ public class StatementPrinter {
                     default -> throw new Error("unknown type: ${play.type}");
                 };
             }
+
+            private int volumeCreditsFor(Performance aPerformance) {
+                var volumeCredits = Math.max(aPerformance.audience - 30, 0);
+                if ("comedy".equals(aPerformance.play.type)) {
+                    volumeCredits += (aPerformance.audience / 5);
+                }
+                return volumeCredits;
+            }
         };
         var result = new Performance(aPerformance.playID, aPerformance.audience);
 
         result.play = printer.playFor(result);
         result.amount = printer.amountFor(result);
+        result.volumeCredits = printer.volumeCreditsFor(result);
         return result;
     }
 
@@ -88,12 +97,6 @@ public class StatementPrinter {
     }
 
     private int volumeCreditsFor(Performance aPerformance) {
-        var volumeCredits = Math.max(aPerformance.audience - 30, 0);
-
-        if ("comedy".equals(aPerformance.play.type)) {
-            volumeCredits += (aPerformance.audience / 5);
-        }
-
-        return volumeCredits;
+        return aPerformance.volumeCredits;
     }
 }
