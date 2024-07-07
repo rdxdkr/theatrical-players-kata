@@ -18,14 +18,14 @@ public class StatementPrinter {
                 invoice.customer,
                 invoice.performances.stream().map(this::enrichPerformance).toList()
         );
-        return renderPlainText(statementData, plays);
+        return renderPlainText(statementData);
     }
 
     private Performance enrichPerformance(Performance aPerformance) {
         return new Performance(aPerformance.playID, aPerformance.audience);
     }
 
-    private String renderPlainText(StatementData data, Map<String, Play> plays) {
+    private String renderPlainText(StatementData data) {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", data.customer()));
 
         for (var aPerformance : data.performances()) {
