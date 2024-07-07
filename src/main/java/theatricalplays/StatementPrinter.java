@@ -1,17 +1,18 @@
 package theatricalplays;
 
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-record StatementData(String customer) {
+record StatementData(String customer, List<Performance> performances) {
 }
 
 public class StatementPrinter {
     private Map<String, Play> plays;
 
     public String print(Invoice invoice, Map<String, Play> plays) {
-        var statementData = new StatementData(invoice.customer);
+        var statementData = new StatementData(invoice.customer, invoice.performances);
         return renderPlainText(statementData, invoice, plays);
     }
 
@@ -19,7 +20,7 @@ public class StatementPrinter {
         StringBuilder result = new StringBuilder(String.format("Statement for %s\n", data.customer()));
         this.plays = plays;
 
-        for (var aPerformance : invoice.performances) {
+        for (var aPerformance : data.performances()) {
             // print line for this order
             result.append(String.format("  %s: %s (%s seats)\n", playFor(aPerformance).name, usd(amountFor(aPerformance) / 100), aPerformance.audience));
         }
