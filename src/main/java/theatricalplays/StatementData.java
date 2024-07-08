@@ -13,13 +13,9 @@ class StatementData {
     StatementData(Invoice invoice, Map<String, Play> plays) {
         customer = invoice.customer;
         this.plays = plays;
-        this.performances = invoice.performances.stream().map(this::enrichPerformance).toList();
+        performances = invoice.performances.stream().map(this::enrichPerformance).toList();
         totalVolumeCredits = totalVolumeCredits();
         totalAmount = totalAmount();
-    }
-
-    static StatementData createStatementData(Invoice invoice, Map<String, Play> plays) {
-        return new StatementData(invoice, plays);
     }
 
     private Play playFor(Performance aPerformance) {
