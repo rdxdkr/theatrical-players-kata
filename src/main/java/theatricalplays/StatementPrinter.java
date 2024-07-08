@@ -5,16 +5,12 @@ import java.util.Locale;
 import java.util.Map;
 
 public class StatementPrinter {
-    private Map<String, Play> plays;
-
     public String print(Invoice invoice, Map<String, Play> plays) {
-        this.plays = plays;
-
-        var statementData = createStatementData(invoice);
+        var statementData = createStatementData(invoice, plays);
         return renderPlainText(statementData);
     }
 
-    private StatementData createStatementData(Invoice invoice) {
+    private StatementData createStatementData(Invoice invoice, Map<String, Play> plays) {
         var printer = new StatementPrinter() {
             private Play playFor(Performance aPerformance) {
                 return plays.get(aPerformance.playID);
