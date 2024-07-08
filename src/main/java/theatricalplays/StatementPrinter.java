@@ -10,8 +10,13 @@ public class StatementPrinter {
     public String print(Invoice invoice, Map<String, Play> plays) {
         this.plays = plays;
 
+        var statementData = createStatementData(invoice);
+        return renderPlainText(statementData);
+    }
+
+    private StatementData createStatementData(Invoice invoice) {
         var printer = new StatementPrinter() {
-            private int totalVolumeCredits(StatementData data) {
+            int totalVolumeCredits(StatementData data) {
                 var volumeCredits = 0;
                 for (var aPerformance : data.performances) {
                     volumeCredits += aPerformance.volumeCredits;
@@ -19,7 +24,7 @@ public class StatementPrinter {
                 return volumeCredits;
             }
 
-            private int totalAmount(StatementData data) {
+            int totalAmount(StatementData data) {
                 var totalAmount = 0;
                 for (var aPerformance : data.performances) {
                     totalAmount += aPerformance.amount;
@@ -31,10 +36,10 @@ public class StatementPrinter {
                 invoice.customer,
                 invoice.performances.stream().map(this::enrichPerformance).toList()
         );
-        
+
         statementData.totalVolumeCredits = printer.totalVolumeCredits(statementData);
         statementData.totalAmount = printer.totalAmount(statementData);
-        return renderPlainText(statementData);
+        return statementData;
     }
 
     private Performance enrichPerformance(Performance aPerformance) {
