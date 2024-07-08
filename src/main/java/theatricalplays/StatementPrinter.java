@@ -31,6 +31,7 @@ public class StatementPrinter {
                 invoice.customer,
                 invoice.performances.stream().map(this::enrichPerformance).toList()
         );
+        
         statementData.totalVolumeCredits = printer.totalVolumeCredits(statementData);
         statementData.totalAmount = printer.totalAmount(statementData);
         return renderPlainText(statementData);
@@ -86,13 +87,9 @@ public class StatementPrinter {
             result.append(String.format("  %s: %s (%s seats)\n", aPerformance.play.name, usd(aPerformance.amount / 100), aPerformance.audience));
         }
 
-        result.append(String.format("Amount owed is %s\n", usd(totalAmount(data) / 100)));
+        result.append(String.format("Amount owed is %s\n", usd(data.totalAmount / 100)));
         result.append(String.format("You earned %s credits\n", data.totalVolumeCredits));
         return result.toString();
-    }
-
-    private int totalAmount(StatementData data) {
-        return data.totalAmount;
     }
 
     private String usd(int aNumber) {
