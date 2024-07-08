@@ -14,15 +14,15 @@ class StatementData {
         this.performances = performances;
     }
 
-    static StatementData createStatementData(Invoice invoice, Map<String, Play> plays) {
-        var statementData = new StatementData(
-                invoice.customer,
-                invoice.performances.stream().map(p -> enrichPerformance(p, plays)).toList()
-        );
+    StatementData(Invoice invoice, Map<String, Play> plays) {
+        customer = invoice.customer;
+        this.performances = invoice.performances.stream().map(p -> enrichPerformance(p, plays)).toList();
+        totalVolumeCredits = totalVolumeCredits();
+        totalAmount = totalAmount();
+    }
 
-        statementData.totalVolumeCredits = totalVolumeCredits(statementData);
-        statementData.totalAmount = totalAmount(statementData);
-        return statementData;
+    static StatementData createStatementData(Invoice invoice, Map<String, Play> plays) {
+        return new StatementData(invoice, plays);
     }
 
     private static Play playFor(Performance aPerformance, Map<String, Play> plays) {
