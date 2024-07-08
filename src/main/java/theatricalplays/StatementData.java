@@ -5,6 +5,7 @@ import java.util.Map;
 
 class StatementData {
     public String customer;
+    public Map<String, Play> plays;
     public List<Performance> performances;
     public int totalVolumeCredits;
     public int totalAmount;
@@ -16,7 +17,8 @@ class StatementData {
 
     StatementData(Invoice invoice, Map<String, Play> plays) {
         customer = invoice.customer;
-        this.performances = invoice.performances.stream().map(p -> enrichPerformance(p, plays)).toList();
+        this.plays = plays;
+        this.performances = invoice.performances.stream().map(this::enrichPerformance).toList();
         totalVolumeCredits = totalVolumeCredits();
         totalAmount = totalAmount();
     }
