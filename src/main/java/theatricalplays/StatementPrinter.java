@@ -16,34 +16,6 @@ public class StatementPrinter {
 
     private StatementData createStatementData(Invoice invoice) {
         var printer = new StatementPrinter() {
-            int totalVolumeCredits(StatementData data) {
-                var volumeCredits = 0;
-                for (var aPerformance : data.performances) {
-                    volumeCredits += aPerformance.volumeCredits;
-                }
-                return volumeCredits;
-            }
-
-            int totalAmount(StatementData data) {
-                var totalAmount = 0;
-                for (var aPerformance : data.performances) {
-                    totalAmount += aPerformance.amount;
-                }
-                return totalAmount;
-            }
-        };
-        var statementData = new StatementData(
-                invoice.customer,
-                invoice.performances.stream().map(this::enrichPerformance).toList()
-        );
-
-        statementData.totalVolumeCredits = printer.totalVolumeCredits(statementData);
-        statementData.totalAmount = printer.totalAmount(statementData);
-        return statementData;
-    }
-
-    private Performance enrichPerformance(Performance aPerformance) {
-        var printer = new StatementPrinter() {
             private Play playFor(Performance aPerformance) {
                 return plays.get(aPerformance.playID);
             }
@@ -75,13 +47,40 @@ public class StatementPrinter {
                 }
                 return volumeCredits;
             }
-        };
-        var result = new Performance(aPerformance.playID, aPerformance.audience);
 
-        result.play = printer.playFor(result);
-        result.amount = printer.amountFor(result);
-        result.volumeCredits = printer.volumeCreditsFor(result);
-        return result;
+            int totalVolumeCredits(StatementData data) {
+                var volumeCredits = 0;
+                for (var aPerformance : data.performances) {
+                    volumeCredits += aPerformance.volumeCredits;
+                }
+                return volumeCredits;
+            }
+
+            int totalAmount(StatementData data) {
+                var totalAmount = 0;
+                for (var aPerformance : data.performances) {
+                    totalAmount += aPerformance.amount;
+                }
+                return totalAmount;
+            }
+
+            Performance enrichPerformance(Performance aPerformance) {
+                var result = new Performance(aPerformance.playID, aPerformance.audience);
+
+                result.play = playFor(result);
+                result.amount = amountFor(result);
+                result.volumeCredits = volumeCreditsFor(result);
+                return result;
+            }
+        };
+        var statementData = new StatementData(
+                invoice.customer,
+                invoice.performances.stream().map(printer::enrichPerformance).toList()
+        );
+
+        statementData.totalVolumeCredits = printer.totalVolumeCredits(statementData);
+        statementData.totalAmount = printer.totalAmount(statementData);
+        return statementData;
     }
 
     private String renderPlainText(StatementData data) {
