@@ -18,12 +18,21 @@ public class StatementPrinter {
                 }
                 return volumeCredits;
             }
+
+            private int totalAmount(StatementData data) {
+                var totalAmount = 0;
+                for (var aPerformance : data.performances) {
+                    totalAmount += aPerformance.amount;
+                }
+                return totalAmount;
+            }
         };
         var statementData = new StatementData(
                 invoice.customer,
                 invoice.performances.stream().map(this::enrichPerformance).toList()
         );
         statementData.totalVolumeCredits = printer.totalVolumeCredits(statementData);
+        statementData.totalAmount = printer.totalAmount(statementData);
         return renderPlainText(statementData);
     }
 
@@ -83,11 +92,7 @@ public class StatementPrinter {
     }
 
     private int totalAmount(StatementData data) {
-        var totalAmount = 0;
-        for (var aPerformance : data.performances) {
-            totalAmount += aPerformance.amount;
-        }
-        return totalAmount;
+        return data.totalAmount;
     }
 
     private String usd(int aNumber) {
