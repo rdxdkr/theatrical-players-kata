@@ -65,9 +65,25 @@ class StatementData {
         return volumeCredits;
     }
 
+    private int totalVolumeCredits() {
+        var volumeCredits = 0;
+        for (var aPerformance : performances) {
+            volumeCredits += aPerformance.volumeCredits;
+        }
+        return volumeCredits;
+    }
+
     private static int totalAmount(StatementData data) {
         var totalAmount = 0;
         for (var aPerformance : data.performances) {
+            totalAmount += aPerformance.amount;
+        }
+        return totalAmount;
+    }
+
+    private int totalAmount() {
+        var totalAmount = 0;
+        for (var aPerformance : performances) {
             totalAmount += aPerformance.amount;
         }
         return totalAmount;
