@@ -26,7 +26,7 @@ class StatementData {
         return plays.get(aPerformance.playID);
     }
 
-    private static int amountFor(Performance aPerformance) {
+    private int amountFor(Performance aPerformance) {
         return switch (aPerformance.play.type) {
             case "tragedy" -> {
                 var result = 40000;
@@ -46,7 +46,7 @@ class StatementData {
         };
     }
 
-    private static int volumeCreditsFor(Performance aPerformance) {
+    private int volumeCreditsFor(Performance aPerformance) {
         var volumeCredits = Math.max(aPerformance.audience - 30, 0);
         if ("comedy".equals(aPerformance.play.type)) {
             volumeCredits += (aPerformance.audience / 5);
