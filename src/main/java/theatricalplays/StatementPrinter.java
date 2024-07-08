@@ -1,19 +1,8 @@
 package theatricalplays;
 
 import java.text.NumberFormat;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-class StatementData {
-    public String customer;
-    public List<Performance> performances;
-
-    StatementData(String customer, List<Performance> performances) {
-        this.customer = customer;
-        this.performances = performances;
-    }
-}
 
 public class StatementPrinter {
     private Map<String, Play> plays;
