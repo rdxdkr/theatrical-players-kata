@@ -10,10 +10,20 @@ public class StatementPrinter {
     public String print(Invoice invoice, Map<String, Play> plays) {
         this.plays = plays;
 
+        var printer = new StatementPrinter() {
+            private int totalVolumeCredits(StatementData data) {
+                var volumeCredits = 0;
+                for (var aPerformance : data.performances) {
+                    volumeCredits += aPerformance.volumeCredits;
+                }
+                return volumeCredits;
+            }
+        };
         var statementData = new StatementData(
                 invoice.customer,
                 invoice.performances.stream().map(this::enrichPerformance).toList()
         );
+        statementData.totalVolumeCredits = printer.totalVolumeCredits(statementData);
         return renderPlainText(statementData);
     }
 
@@ -81,11 +91,7 @@ public class StatementPrinter {
     }
 
     private int totalVolumeCredits(StatementData data) {
-        var volumeCredits = 0;
-        for (var aPerformance : data.performances) {
-            volumeCredits += aPerformance.volumeCredits;
-        }
-        return volumeCredits;
+        return data.totalVolumeCredits;
     }
 
     private String usd(int aNumber) {
