@@ -29,6 +29,10 @@ class StatementData {
         return plays.get(aPerformance.playID);
     }
 
+    private Play playFor(Performance aPerformance) {
+        return plays.get(aPerformance.playID);
+    }
+
     private static int amountFor(Performance aPerformance) {
         return switch (aPerformance.play.type) {
             case "tragedy" -> {
@@ -93,6 +97,15 @@ class StatementData {
         var result = new Performance(aPerformance.playID, aPerformance.audience);
 
         result.play = playFor(result, plays);
+        result.amount = amountFor(result);
+        result.volumeCredits = volumeCreditsFor(result);
+        return result;
+    }
+
+    private Performance enrichPerformance(Performance aPerformance) {
+        var result = new Performance(aPerformance.playID, aPerformance.audience);
+
+        result.play = playFor(result);
         result.amount = amountFor(result);
         result.volumeCredits = volumeCreditsFor(result);
         return result;
