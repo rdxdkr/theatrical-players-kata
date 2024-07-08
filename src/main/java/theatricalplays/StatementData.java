@@ -10,11 +10,6 @@ class StatementData {
     public int totalVolumeCredits;
     public int totalAmount;
 
-    StatementData(String customer, List<Performance> performances) {
-        this.customer = customer;
-        this.performances = performances;
-    }
-
     StatementData(Invoice invoice, Map<String, Play> plays) {
         customer = invoice.customer;
         this.plays = plays;
@@ -25,10 +20,6 @@ class StatementData {
 
     static StatementData createStatementData(Invoice invoice, Map<String, Play> plays) {
         return new StatementData(invoice, plays);
-    }
-
-    private static Play playFor(Performance aPerformance, Map<String, Play> plays) {
-        return plays.get(aPerformance.playID);
     }
 
     private Play playFor(Performance aPerformance) {
@@ -63,14 +54,6 @@ class StatementData {
         return volumeCredits;
     }
 
-    private static int totalVolumeCredits(StatementData data) {
-        var volumeCredits = 0;
-        for (var aPerformance : data.performances) {
-            volumeCredits += aPerformance.volumeCredits;
-        }
-        return volumeCredits;
-    }
-
     private int totalVolumeCredits() {
         var volumeCredits = 0;
         for (var aPerformance : performances) {
@@ -79,29 +62,12 @@ class StatementData {
         return volumeCredits;
     }
 
-    private static int totalAmount(StatementData data) {
-        var totalAmount = 0;
-        for (var aPerformance : data.performances) {
-            totalAmount += aPerformance.amount;
-        }
-        return totalAmount;
-    }
-
     private int totalAmount() {
         var totalAmount = 0;
         for (var aPerformance : performances) {
             totalAmount += aPerformance.amount;
         }
         return totalAmount;
-    }
-
-    private static Performance enrichPerformance(Performance aPerformance, Map<String, Play> plays) {
-        var result = new Performance(aPerformance.playID, aPerformance.audience);
-
-        result.play = playFor(result, plays);
-        result.amount = amountFor(result);
-        result.volumeCredits = volumeCreditsFor(result);
-        return result;
     }
 
     private Performance enrichPerformance(Performance aPerformance) {
