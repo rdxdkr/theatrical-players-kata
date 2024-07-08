@@ -78,7 +78,7 @@ public class StatementPrinter {
         }
 
         result.append(String.format("Amount owed is %s\n", usd(totalAmount(data) / 100)));
-        result.append(String.format("You earned %s credits\n", totalVolumeCredits(data)));
+        result.append(String.format("You earned %s credits\n", data.totalVolumeCredits));
         return result.toString();
     }
 
@@ -88,10 +88,6 @@ public class StatementPrinter {
             totalAmount += aPerformance.amount;
         }
         return totalAmount;
-    }
-
-    private int totalVolumeCredits(StatementData data) {
-        return data.totalVolumeCredits;
     }
 
     private String usd(int aNumber) {
