@@ -1,8 +1,8 @@
 # Theatrical Players Kata
 
-My version of the kata by following along Emily Bache's [video](https://youtu.be/cZJ36B3iXok?si=_azxu6VhURYp5LGX).
-Despite the language difference (she uses JavaScript while I wanted to stick to Java), I tried to write the code as
-close as possible to her own to make the refactorings similar.
+My version of the kata following along with Emily Bache's [video](https://youtu.be/cZJ36B3iXok?si=_azxu6VhURYp5LGX).
+Despite the language difference (she uses JavaScript while I wanted to stick with Java), I tried to write the code as
+close as possible to her own, to make the refactorings similar.
 
 ## Usage
 
